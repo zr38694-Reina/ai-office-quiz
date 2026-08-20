@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 办公能力测评</title>
+<style>
+  :root{--bg:#f7f6f3;--card:#ffffff;--ink:#292524;--ink2:#57534e;--ink3:#a8a29e;--line:#e7e5e4;
+        --teal:#0f766e;--teal-d:#115e59;--teal-soft:#f0fdfa;--amber:#b45309;--amber-soft:#fffbeb;
+        --red:#dc2626;--red-soft:#fef2f2;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .app{max-width:760px;margin:0 auto;padding:24px 16px 48px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+  .center{text-align:center}
+  h1{font-size:26px;margin:0 0 6px;letter-spacing:-.02em}
+  .sub{color:var(--ink2);font-size:14px;margin:0 0 22px}
+  .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;
+         padding:4px 12px;font-size:12px;color:var(--ink2);background:#fafaf9}
+  .field{margin-bottom:12px;text-align:left}
+  .field label{display:block;font-size:13px;color:var(--ink2);margin-bottom:5px}
+  .field input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:15px;outline:none}
+  .field input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,118,110,.12)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;border:none;border-radius:10px;
+       padding:11px 22px;font-size:15px;font-weight:600;cursor:pointer;transition:background .15s}
+  .btn-primary{background:var(--teal);color:#fff}
+  .btn-primary:hover{background:var(--teal-d)}
+  .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{background:#fafaf9}
+  .btn-block{width:100%}
+  .btn-sm{padding:8px 14px;font-size:13px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .mt2{margin-top:14px}.mt3{margin-top:20px}.mt4{margin-top:28px}
+  .progress-track{height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin-bottom:6px}
+  .progress-fill{height:100%;background:var(--teal);border-radius:999px;transition:width .2s}
+  .qmeta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink3);margin-bottom:12px}
+  .qdim{color:var(--teal);font-weight:600}
+  .qtext{font-size:18px;font-weight:600;line-height:1.5;margin:0 0 20px}
+  .option{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:#fff;
+          border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;
+          font-size:15px;cursor:pointer;transition:border-color .12s,background .12s}
+  .option:hover{border-color:#d6d3d1;background:#fafaf9}
+  .option .key{flex:0 0 24px;height:24px;border-radius:50%;background:var(--bg);border:1px solid var(--line);
+               display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink2)}
+  .option.sel{border-color:var(--teal);background:var(--teal-soft)}
+  .option.sel .key{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .nav{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+  .score-wrap{display:flex;align-items:baseline;justify-content:center;gap:8px;margin-top:6px}
+  .score-num{font-size:56px;font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--teal)}
+  .score-total{color:var(--ink3);font-size:16px}
+  .grade{display:inline-block;margin-top:12px;border-radius:999px;padding:5px 16px;font-size:13px;font-weight:700}
+  .g-ok{background:var(--teal-soft);color:var(--teal-d)}
+  .g-mid{background:var(--amber-soft);color:var(--amber)}
+  .g-low{background:var(--red-soft);color:var(--red)}
+  .radar{display:flex;justify-content:center;margin:18px 0 4px}
+  .dimbar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .dimbar .dn{flex:0 0 88px;font-size:13px;color:var(--ink2);text-align:left}
+  .dimbar .track{flex:1;height:10px;background:var(--line);border-radius:999px;overflow:hidden}
+  .dimbar .fill{height:100%;border-radius:999px;transition:width .4s}
+  .dimbar .dv{flex:0 0 52px;text-align:right;font-size:13px;font-weight:600}
+  h2{font-size:18px;margin:26px 0 12px}
+  h3{font-size:15px;margin:22px 0 10px;color:var(--ink)}
+  .tip{font-size:14px;color:var(--ink2);background:#fafaf9;border:1px solid var(--line);
+       border-radius:12px;padding:12px 14px;margin-top:14px}
+  .rev{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;background:#fafaf9}
+  .rev .rq{font-size:14px;font-weight:600;margin-bottom:8px}
+  .rev .ra{font-size:13px;color:var(--red);margin-bottom:4px}
+  .rev .rc{font-size:13px;color:var(--teal-d)}
+  .status{font-size:13px;color:var(--ink2);margin-top:14px}
+  .status.ok{color:var(--teal-d)}
+  .status.warn{color:var(--amber)}
+  .foot{text-align:center;font-size:12px;color:var(--ink3);margin-top:28px}
+</style>
+</head>
+<body>
+<div id="app" class="app"></div>
+
+<script>
+/* =====================================================================
+   AI 办公能力测评 · 对外版
+   单文件，无外部依赖，可部署到任意静态托管（GitHub Pages / Netlify 等）。
+   ---------------------------------------------------------------------
+   使用前请配置下方 CONFIG.endpoint 以集中收集答题数据。
+   ===================================================================== */
+const CONFIG = {
+  siteName: "AI 办公能力测评",
+  /* 数据收集地址（对外使用前务必填写）
+     支持 Formspree (https://formspree.io) / Basin (https://usebasin.com) 等表单接口。
+     注册后生成一个地址，粘贴到这里即可，例如：
+       endpoint: "https://formspree.io/f/xxxxxxx"
+     留空时：答题结果仅保存在答题者本地浏览器，并提供“下载结果”导出。 */
+  endpoint: "",
+  /* 提交格式："json" 或 "form"（Formspree/Basin 均支持 json） */
+  endpointFormat: "json",
+  /* 开始前是否收集姓名/部门（选填） */
+  needRespondent: true,
+  /* 结果页是否提供“下载结果”按钮 */
+  showDownload: true,
+};
+
+const DIMS = [
+  {name:"需求表达与提问能力", short:"需求表达", desc:"把需求说清楚，让 AI 一次听懂", tip:"把目标、结构、格式和约束一次说清，多用「按……输出、突出……」句式。"},
+  {name:"工具选型与AI认知", short:"工具选型", desc:"分清聊天 AI 与 Agent，按任务选对", tip:"先判断任务是「聊一聊」还是「要交付」，再选聊天 AI 或 AI Agent。"},
+  {name:"流程搭建与复用", short:"流程复用", desc:"把重复任务固化成流程，一次搭建多次复用", tip:"把常做的任务模板化，固定输入输出，跑通后只更新数据、检查结果。"},
+  {name:"资料整合与知识库", short:"资料整合", desc:"处理多格式资料，建可检索的知识库", tip:"多格式资料先统一文本并建索引，回答时引用原文并注明来源。"},
+  {name:"输出核验与风险防控", short:"核验防控", desc:"核查事实、人工确认、防范幻觉与风险", tip:"对数字、事实和来源保持核验，重要输出先人工确认再使用。"}
+];
+
+const QUESTIONS = [
+  {id:1, dim:0, text:"想让AI帮你总结一份会议记录，哪种说法最容易得到好结果？", options:["帮我总结这篇会议记录","帮我总结这篇会议记录，按“结论、决策、待办”输出，并标出待办的负责人","把会议记录发给AI，说“你是会议纪要专家”，让它自己判断哪些是重点再总结","帮我总结得越详细越好，不要漏掉任何内容"], answer:1},
+  {id:2, dim:0, text:"你给AI一份销售表，想知道哪个地区卖得最好，最合适的问法是？", options:["帮我分析一下这份数据，把每个指标都看看","随便看看有什么问题","把数据整理成图表发给AI，让它看图告诉你哪个地区卖得好","按地区汇总销售额，找出销售额最高的3个地区"], answer:3},
+  {id:3, dim:0, text:"AI给出的结果不是自己想要的，第一步最应该做什么？", options:["换一个AI工具再试一遍，看看效果","重新读一遍自己给的需求，把没说清楚的地方补充明确","让AI多生成几次，挑一个看起来最好的","把AI的回答拿给同事看，让同事帮你判断问题出在哪里、该怎么改"], answer:1},
+  {id:4, dim:0, text:"想让AI写一封活动通知，最有可能让语气和格式一次到位的做法是？", options:["只写“写个通知”，其他什么都不用说","找一篇以前发过的类似活动通知，让AI照着它的风格和结构改一改","说明“面向新员工、正式语气、500字以内、分三段”","让AI先自由发挥写一版，自己再慢慢修改"], answer:2},
+  {id:5, dim:1, text:"下面哪一项最能体现“AI Agent”的能力？", options:["回答问题的语气更像真人","能一次生成很长的文章","能记住你之前聊过的所有内容，并连续回答多个相关问题","把目标拆成步骤、调用工具处理文件并交付结果"], answer:3},
+  {id:6, dim:1, text:"要把Excel数据汇总成周报并生成PDF，最省事的做法是？", options:["把表格截图发给AI，让它描述一下内容","用AI Agent读取Excel、汇总数据、直接生成PDF文件","手动把数据抄进Word，再转成PDF","把Excel发给AI，让它分析数据、生成周报文字，再自己排版成一份文档"], answer:1},
+  {id:7, dim:1, text:"下面哪种属于“让AI直接交付成品”，而不是“让AI给建议”？", options:["让AI给大纲和配色建议，自己照着做","让AI给每页标题和要点，自己排版","让AI直接生成一份可打开的PPT文件","让AI写出全部内容文字，再自己复制进PPT"], answer:2},
+  {id:8, dim:1, text:"下面哪个任务更适合交给“聊天AI”而不是“AI Agent”？", options:["把一句话翻译成英文","每天定时抓取新闻并生成报告","合并多个Excel并发送邮件","定时监控数据并推送提醒"], answer:0},
+  {id:9, dim:2, text:"你每周都要写类似的周报，最省力的长期做法是？", options:["每周让AI重新写一遍，每次都把格式、语气、材料要求重新交代一遍","把周报格式、语气、材料要求固化成固定模板，每周只更新内容","每周复制上周的周报，改个日期和数据就提交","每周让AI自由发挥，想怎么写就怎么写"], answer:1},
+  {id:10, dim:2, text:"一个固定日报任务已经搭好并跑通，之后每天最合理的做法是？", options:["每天重新设计一遍流程","每天换一个新AI工具来试试效果，觉得不好用就再换一个","沿用固定流程，只更新当天的数据，检查结果后再使用","让AI想输出什么就输出什么，不用管"], answer:2},
+  {id:11, dim:2, text:"要让“自动汇总各部门Excel”的流程稳定可靠，最重要的前提是？", options:["各部门表格的格式和字段尽量统一","先让AI学会识别各部门表格的字段，之后自动处理","每次上传不同格式的文件，考验AI的适应性","不让AI看具体数据，只按说明处理"], answer:0},
+  {id:12, dim:2, text:"下面哪个做法最能体现“把AI用进工作流”？", options:["每次手动把资料复制给AI，拿到结果再复制回去","设定固定步骤：AI读取资料→按规则处理→输出结果→人工确认","把每周要用的资料统一交给AI，让它按规则处理完，再把结果整理成一份给你","每天让AI随机生成一些报告放着备用"], answer:1},
+  {id:13, dim:3, text:"公司有PDF制度、Excel数据、会议录音，想建一个员工能提问的知识库，哪种思路正确？", options:["把所有资料转成统一文本并建立索引，提问时能检索到原文","把资料打包发到群里，让员工需要时自己翻","把所有资料拼成一份超长文档，之后需要什么内容就在文档里搜","只整理文字资料，音频和视频先不管"], answer:0},
+  {id:14, dim:3, text:"想把90分钟的会议录音整理成文字纪要，AI应该先做什么？", options:["根据会议议题先拟一版纪要，再对照录音核对","先语音转写成文字，再提炼结论和待办","先找人手写记录，再让AI润色成文","让AI看会议海报和议程来推断内容"], answer:1},
+  {id:15, dim:3, text:"想把一批Excel和PDF整理成统一格式方便后续分析，第一步最好先做什么？", options:["直接让AI凭感觉分析并写结论","只保留其中一份资料，其余不看","先了解每份资料的格式和字段，统一转成同一种格式","把所有内容复制到一个Word里，手动合并成一份完整文档"], answer:2},
+  {id:16, dim:3, text:"员工问知识库“年假怎么请”，最好的回答方式是？", options:["凭AI记忆里的制度内容大概说一下","让员工自己去翻制度PDF找答案","直接引用制度原文并说明来源","让AI根据常识临时编一个答案"], answer:2},
+  {id:17, dim:4, text:"AI告诉你“上个月销售额增长了50%”，你该怎么处理？", options:["直接把它写进汇报材料","让AI再重新算一遍，只要两次结果一致就可以用","相信AI一般不会出错，直接采用","先核对原始数据，确认数字准确后再用"], answer:3},
+  {id:18, dim:4, text:"让AI Agent自动发送客户邮件之前，最应该做的是？", options:["由负责人确认内容后再发送","直接让Agent全自动发送，省去人工","先发出去，收到反馈再调整","让Agent自己判断什么时候发送"], answer:0},
+  {id:19, dim:4, text:"下面哪一项属于使用AI时最需要防范的风险？", options:["AI回复的速度太慢，影响整体工作效率","AI编造不存在的事实和数据（幻觉）","AI生成的文字太正式，不够口语化","AI记住太多的历史对话和消息"], answer:1},
+  {id:20, dim:4, text:"AI帮你筛选简历，说“这份最优秀”，最稳妥的做法是？", options:["直接按AI的推荐意见录用","只看AI打的分数高低","不轻信AI，把所有简历都自己重新看一遍","让AI说明判断依据，再结合人工复核"], answer:3}
+];
+
+/* ---------------- 状态与本地存储 ---------------- */
+const LS_PROGRESS = "ai_quiz_progress_v1";
+const LS_HISTORY  = "ai_quiz_history_v1";
+const LETTERS = ["A", "B", "C", "D"];
+
+let state = {
+  screen: "start",                       // start | quiz | result
+  current: 0,
+  answers: Array(QUESTIONS.length).fill(null),
+  respondent: { name: "", department: "" },
+  lastResult: null,
+  submitNote: "",
+};
+
+const app = document.getElementById("app");
+
+function saveProgress() {
+  try {
+    localStorage.setItem(LS_PROGRESS, JSON.stringify({
+      current: state.current, answers: state.answers, respondent: state.respondent,
+    }));
+  } catch (e) { /* ignore */ }
+}
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(LS_PROGRESS);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (!d || !Array.isArray(d.answers) || d.answers.length !== QUESTIONS.length) return null;
+    return d;
+  } catch (e) { return null; }
+}
+function clearProgress() {
+  try { localStorage.removeItem(LS_PROGRESS); } catch (e) {}
+}
+function hasStarted() {
+  const d = loadProgress();
+  return d && d.answers.some(a => a !== null);
+}
+function pushHistory(result) {
+  try {
+    const arr = JSON.parse(localStorage.getItem(LS_HISTORY) || "[]");
+    arr.push(result);
+    localStorage.setItem(LS_HISTORY, JSON.stringify(arr.slice(-50)));
+  } catch (e) {}
+}
+
+/* ---------------- 成绩计算 ---------------- */
+function computeResult() {
+  const dimStats = DIMS.map((d, di) => {
+    let correct = 0, total = 0;
+    QUESTIONS.forEach((q, i) => { if (q.dim === di) { total++; if (state.answers[i] === q.answer) correct++; } });
+    return { dim: di, name: d.name, correct, total, score: Math.round((correct / total) * 100) };
+  });
+  const answers = QUESTIONS.map((q, i) => {
+    const chosen = state.answers[i];
+    return {
+      id: q.id, dim: q.dim, text: q.text,
+      chosen, chosenText: chosen === null ? null : q.options[chosen],
+      correct: q.answer, correctText: q.options[q.answer],
+      isCorrect: chosen === q.answer,
+    };
+  });
+  const totalCorrect = answers.filter(a => a.isCorrect).length;
+  const totalScore = totalCorrect * 5;
+  const weakest = dimStats.reduce((a, b) => (b.score <= a.score ? b : a));
+  let grade, gradeClass, gradeAdvice;
+  if (totalScore >= 90) { grade = "优秀"; gradeClass = "g-ok"; gradeAdvice = "AI 办公基础扎实，可挑战进阶场景。"; }
+  else if (totalScore >= 75) { grade = "良好"; gradeClass = "g-ok"; gradeAdvice = "大部分能力在线，个别维度可加强。"; }
+  else if (totalScore >= 60) { grade = "合格"; gradeClass = "g-mid"; gradeAdvice = "掌握基础用法，建议针对薄弱维度专项练习。"; }
+  else { grade = "待加强"; gradeClass = "g-low"; gradeAdvice = "建议先补基础概念，再逐步上手实操。"; }
+  return {
+    site: CONFIG.siteName,
+    submittedAt: new Date().toISOString(),
+    respondent: state.respondent,
+    totalScore, totalCorrect, total: QUESTIONS.length,
+    grade, gradeAdvice,
+    weakest: weakest.dim,
+    dimStats,
+    answers,
+    answerLetters: answers.map(a => (a.chosen === null ? null : LETTERS[a.chosen])),
+  };
+}
+
+/* ---------------- 数据上报 ---------------- */
+async function submitPayload(payload) {
+  if (CONFIG.endpoint) {
+    try {
+      const opts = { method: "POST", headers: { Accept: "application/json" } };
+      if (CONFIG.endpointFormat === "form") {
+        opts.headers["Content-Type"] = "application/x-www-form-urlencoded";
+        const fd = new URLSearchParams();
+        for (const k in payload) fd.append(k, (typeof payload[k] === "string") ? payload[k] : JSON.stringify(payload[k]));
+        opts.body = fd.toString();
+      } else {
+        opts.headers["Content-Type"] = "application/json";
+        opts.body = JSON.stringify(payload);
+      }
+      const res = await fetch(CONFIG.endpoint, opts);
+      if (res.ok || res.status < 400) return { ok: true, via: "endpoint" };
+      return { ok: false, via: "endpoint", status: res.status };
+    } catch (e) {
+      return { ok: false, via: "endpoint", error: String(e && e.message || e) };
+    }
+  }
+  return { ok: false, via: "local" };
+}
+
+function downloadJSON(payload, filename) {
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename || "quiz-result.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+/* ---------------- 雷达图（SVG） ---------------- */
+function radarSVG(scores) {
+  const cx = 150, cy = 135, R = 98, n = DIMS.length;
+  let s = '<svg viewBox="0 0 300 270" width="300" height="270" role="img">';
+  for (let lv = 1; lv <= 4; lv++) {
+    const r = (R * lv) / 4;
+    const pts = DIMS.map((_, i) => { const a = -Math.PI / 2 + (2 * Math.PI * i) / n; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; });
+    s += `<polygon points="${pts.map(p => p.join(",")).join(" ")}" fill="none" stroke="#e7e5e4" stroke-width="1"/>`;
+  }
+  DIMS.forEach((d, i) => {
+    const a = -Math.PI / 2 + (2 * Math.PI * i) / n;
+    const x = cx + R * Math.cos(a), y = cy + R * Math.sin(a);
+    s += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#e7e5e4" stroke-width="1"/>`;
+    const lx = cx + (R + 24) * Math.cos(a), ly = cy + (R + 24) * Math.sin(a);
+    s += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#57534e">${d.short}</text>`;
+  });
+  const pts = DIMS.map((_, i) => {
+    const v = Math.max(0, Math.min(1, (scores[i] || 0) / 100));
+    const a = -Math.PI / 2 + (2 * Math.PI * i) / n;
+    return [cx + R * v * Math.cos(a), cy + R * v * Math.sin(a)];
+  });
+  s += `<polygon points="${pts.map(p => p.join(",")).join(" ")}" fill="rgba(15,118,110,.25)" stroke="#0f766e" stroke-width="2"/>`;
+  pts.forEach(p => { s += `<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="#0f766e"/>`; });
+  s += "</svg>";
+  return s;
+}
+function esc(s) {
+  return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+/* ---------------- 渲染：开始页 ---------------- */
+function renderStart(resume) {
+  const saved = resume && loadProgress();
+  const fields = CONFIG.needRespondent ? `
+    <div class="card mt3">
+      <div class="field"><label>姓名 / 花名（选填）</label>
+        <input id="rp_name" placeholder="选填" value="${esc(saved && saved.respondent ? saved.respondent.name : "")}"></div>
+      <div class="field"><label>部门 / 团队（选填）</label>
+        <input id="rp_dept" placeholder="选填" value="${esc(saved && saved.respondent ? saved.respondent.department : "")}"></div>
+    </div>` : "";
+  app.innerHTML = `
+    <div class="card center">
+      <div class="badge">AI 办公能力测评</div>
+      <h1 style="margin-top:14px">测一测你的 AI 办公能力</h1>
+      <p class="sub">20 道单选题 · 覆盖 5 个维度 · 约 5 分钟完成<br>答完生成五维能力雷达图与改进建议</p>
+      <div class="row">
+        <button class="btn btn-primary" id="btn_start">开始测评</button>
+        ${resume ? '<button class="btn btn-ghost" id="btn_resume">继续上次答题</button>' : ""}
+      </div>
+      ${fields}
+    </div>
+    <p class="foot">${CONFIG.endpoint ? "测评数据将提交给主办方" : "结果将保存在本机浏览器"}</p>`;
+  app.querySelector("#btn_start").onclick = () => {
+    if (CONFIG.needRespondent) {
+      state.respondent.name = (app.querySelector("#rp_name") || {}).value || "";
+      state.respondent.department = (app.querySelector("#rp_dept") || {}).value || "";
+    }
+    state.screen = "quiz";
+    state.current = 0;
+    state.answers = Array(QUESTIONS.length).fill(null);
+    clearProgress();
+    renderQuiz();
+  };
+  const rb = app.querySelector("#btn_resume");
+  if (rb) rb.onclick = () => {
+    const d = loadProgress();
+    if (d) {
+      state.answers = d.answers;
+      state.respondent = d.respondent || { name: "", department: "" };
+      const firstNull = d.answers.findIndex(a => a === null);
+      state.current = firstNull === -1 ? QUESTIONS.length - 1 : firstNull;
+    }
+    state.screen = "quiz";
+    renderQuiz();
+  };
+}
+
+/* ---------------- 渲染：答题页 ---------------- */
+function renderQuiz() {
+  const q = QUESTIONS[state.current];
+  const chosen = state.answers[state.current];
+  const pct = ((state.current + 1) / QUESTIONS.length) * 100;
+  const dim = DIMS[q.dim];
+  const optsHtml = q.options.map((opt, i) => {
+    const cls = chosen === i ? "option sel" : "option";
+    return `<button class="${cls}" data-i="${i}"><span class="key">${LETTERS[i]}</span><span>${esc(opt)}</span></button>`;
+  }).join("");
+  app.innerHTML = `
+    <div class="card">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="qmeta"><span>第 ${state.current + 1} / ${QUESTIONS.length} 题</span><span class="qdim">${esc(dim.name)}</span></div>
+      <p class="qtext">${esc(q.text)}</p>
+      ${optsHtml}
+      <div class="nav">
+        <button class="btn btn-ghost" id="btn_prev" ${state.current === 0 ? "disabled style='opacity:.4'" : ""}>上一题</button>
+        ${state.current === QUESTIONS.length - 1
+          ? '<button class="btn btn-primary" id="btn_finish">提交并查看结果</button>'
+          : '<button class="btn btn-primary" id="btn_next">下一题</button>'}
+      </div>
+    </div>`;
+  app.querySelectorAll(".option").forEach(b => {
+    b.onclick = () => {
+      const i = parseInt(b.getAttribute("data-i"), 10);
+      state.answers[state.current] = i;
+      saveProgress();
+      renderQuiz();
+    };
+  });
+  const prev = app.querySelector("#btn_prev");
+  if (prev) prev.onclick = () => { if (state.current > 0) { state.current--; renderQuiz(); } };
+  const next = app.querySelector("#btn_next");
+  if (next) next.onclick = () => { if (state.current < QUESTIONS.length - 1) { state.current++; saveProgress(); renderQuiz(); } };
+  const fin = app.querySelector("#btn_finish");
+  if (fin) fin.onclick = () => { state.screen = "result"; finishQuiz(); };
+}
+
+/* ---------------- 完成：计算 + 上报 + 渲染结果 ---------------- */
+function finishQuiz() {
+  const result = computeResult();
+  state.lastResult = result;
+  pushHistory(result);
+  clearProgress();
+  renderResult("submitting");
+  submitPayload(result).then(r => {
+    if (r.ok) {
+      renderResult("ok");
+    } else {
+      renderResult("local", r);
+    }
+  });
+}
+
+function gradeBadge(g) {
+  return `<span class="grade ${g.gradeClass}">${g.grade}</span>`;
+}
+
+function renderResult(status, info) {
+  const r = state.lastResult;
+  if (!r) return;
+  const scores = DIMS.map((_, i) => (r.dimStats[i] ? r.dimStats[i].score : 0));
+  const dimBars = r.dimStats.map((d, i) => `
+    <div class="dimbar">
+      <span class="dn">${esc(d.name)}</span>
+      <span class="track"><span class="fill" style="width:${d.score}%;background:${["#0f766e", "#2563eb", "#d97706", "#7c3aed", "#be123c"][i]}"></span></span>
+      <span class="dv">${d.score}</span>
+    </div>`).join("");
+  const wrong = r.answers.filter(a => !a.isCorrect);
+  let statusHtml;
+  if (status === "ok") {
+    statusHtml = `<div class="status ok">✔ 答题结果已提交成功。</div>`;
+  } else if (status === "submitting") {
+    statusHtml = `<div class="status">正在提交答题结果…</div>`;
+  } else {
+    const why = CONFIG.endpoint ? (info && info.status ? "提交失败" : "网络或接口异常") : "未配置数据收集地址";
+    statusHtml = `<div class="status warn">${why}：结果已保存在本机浏览器。${CONFIG.showDownload ? "可点击下方按钮下载保存。" : ""}</div>`;
+  }
+  const revHtml = wrong.length
+    ? wrong.map(a => `
+        <div class="rev">
+          <div class="rq">第 ${a.id} 题 · ${esc(DIMS[a.dim].name)}<br><span style="font-weight:500;color:#57534e">${esc(a.text)}</span></div>
+          <div class="ra">你的答案：${a.chosen === null ? "未作答" : LETTERS[a.chosen] + " · " + esc(a.chosenText)}</div>
+          <div class="rc">正确答案：${LETTERS[a.correct]} · ${esc(a.correctText)}</div>
+        </div>`).join("")
+    : "";
+  app.innerHTML = `
+    <div class="card center">
+      <div class="badge">测评结果</div>
+      <div class="score-wrap"><span class="score-num">${r.totalScore}</span><span class="score-total">/ 100</span></div>
+      ${gradeBadge(r)}
+      <p class="sub" style="margin-top:10px">${esc(r.gradeAdvice)}</p>
+      ${statusHtml}
+      <div class="row mt3">
+        ${CONFIG.showDownload ? '<button class="btn btn-ghost" id="btn_dl">下载结果（JSON）</button>' : ""}
+        <button class="btn btn-primary" id="btn_restart">再测一次</button>
+      </div>
+      ${CONFIG.endpoint ? "" : `<div class="tip">主办方尚未配置数据收集地址，本结果仅保存在当前浏览器。如需集中统计，请在 HTML 顶部 CONFIG.endpoint 填入表单地址。</div>`}
+    </div>
+    <div class="card mt3">
+      <div class="radar">${radarSVG(scores)}</div>
+      <h3 style="text-align:center">各维度得分</h3>
+      ${dimBars}
+    </div>
+    ${wrong.length ? `<div class="card mt3"><h2>错题回顾（${wrong.length} 题）</h2>${revHtml}</div>` : `<div class="card mt3 center"><h2>全部答对，太棒了！🎉</h2></div>`}
+    <p class="foot">AI 办公能力测评 · 对外版</p>`;
+  const dl = app.querySelector("#btn_dl");
+  if (dl) dl.onclick = () => downloadJSON(r, "AI办公能力测评-结果.json");
+  app.querySelector("#btn_restart").onclick = () => {
+    state.answers = Array(QUESTIONS.length).fill(null);
+    state.current = 0;
+    state.lastResult = null;
+    state.screen = "start";
+    renderStart(false);
+  };
+}
+
+/* ---------------- 启动 ---------------- */
+function boot() {
+  const resume = hasStarted();
+  state.screen = "start";
+  renderStart(resume);
+}
+boot();
+</script>
+</body>
+</html>
