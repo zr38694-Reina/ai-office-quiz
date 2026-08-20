@@ -86,12 +86,16 @@
 const CONFIG = {
   siteName: "AI 办公能力测评",
   /* 数据收集地址（对外使用前务必填写）
-     支持 Formspree (https://formspree.io) / Basin (https://usebasin.com) 等表单接口。
-     注册后生成一个地址，粘贴到这里即可，例如：
-       endpoint: "https://formspree.io/f/xxxxxxx"
+     支持：
+       1) Google Apps Script → Google 表格（推荐，结果自动写入表格）
+          把部署好的 Web 应用 /exec 地址填到这里，endpointFormat 填 "text"
+       2) Formspree (https://formspree.io) / Basin (https://usebasin.com) 等表单接口
+          把表单地址填到这里，endpointFormat 默认 "json"
      留空时：答题结果仅保存在答题者本地浏览器，并提供“下载结果”导出。 */
   endpoint: "",
-  /* 提交格式："json" 或 "form"（Formspree/Basin 均支持 json） */
+  /* 提交格式："json"（Formspree/Basin 等）
+               "form"（表单编码）
+               "text"（Google Apps Script 等，text/plain 避免浏览器预检） */
   endpointFormat: "json",
   /* 开始前是否收集姓名/部门（选填） */
   needRespondent: true,
@@ -224,6 +228,10 @@ async function submitPayload(payload) {
         const fd = new URLSearchParams();
         for (const k in payload) fd.append(k, (typeof payload[k] === "string") ? payload[k] : JSON.stringify(payload[k]));
         opts.body = fd.toString();
+      } else if (CONFIG.endpointFormat === "text") {
+        // 兼容 Google Apps Script 等接口：text/plain 可避免浏览器 CORS 预检
+        opts.headers["Content-Type"] = "text/plain;charset=utf-8";
+        opts.body = JSON.stringify(payload);
       } else {
         opts.headers["Content-Type"] = "application/json";
         opts.body = JSON.stringify(payload);
