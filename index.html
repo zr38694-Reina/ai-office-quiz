@@ -857,34 +857,20 @@ async function submitToSheet(scores){
       detail: detail
     };
 
+    // no-cors 模式：Google Apps Script 会 302 重定向到 googleusercontent.com，
+    // 该域名无 CORS 头，cors 模式下浏览器会拦截。改用 no-cors 可正常发送请求，
+    // 代价是无法读取响应内容（返回 opaque），但数据已写入 Sheets。
     const resp = await fetch(CONFIG.SHEET_WEB_APP_URL, {
       method: "POST",
-      mode: "cors",
-      redirect: "follow",
+      mode: "no-cors",
       headers: {"Content-Type": "text/plain;charset=utf-8"},
       body: JSON.stringify(payload)
     });
 
-    const text = await resp.text();
-    // Google Apps Script 返回的是 JSON，但可能因重定向导致无法直接解析
-    try{
-      const data = JSON.parse(text);
-      if(data.success){
-        showToast("成绩已提交成功");
-        return {success:true};
-      } else {
-        showToast("提交失败: " + (data.error || "未知错误"));
-        return {success:false, reason:"api_error", error:data.error};
-      }
-    }catch(e){
-      // 如果响应不是 JSON，但 HTTP 状态正常，也算成功（Google Apps Script 重定向行为）
-      if(resp.ok || resp.type === "opaque"){
-        showToast("成绩已提交");
-        return {success:true};
-      }
-      showToast("提交结果不确定，请检查网络");
-      return {success:false, reason:"parse_error"};
-    }
+    // no-cors 模式下 resp.type 为 "opaque"，无法读取响应体
+    // 请求未抛异常即认为提交成功
+    showToast("成绩已提交成功");
+    return {success:true};
   }catch(err){
     showToast("网络错误，数据已本地保存");
     return {success:false, reason:"network_error", error:String(err)};
