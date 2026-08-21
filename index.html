@@ -156,30 +156,30 @@ const dimensions = [
   {name:"工具选型与AI认知",short:"工具选型",desc:"分清聊天 AI 与 Agent，按任务选对",tip:"分清「聊天问答」和「能调用工具、交付文件的 Agent」，按任务选择。",color:"#2563eb"},
   {name:"流程搭建与复用",short:"流程复用",desc:"把重复任务固化成流程，一次搭建多次复用",tip:"把重复任务沉淀成固定模板 / Skill，一次搭建、多次复用。",color:"#d97706"},
   {name:"资料整合与知识库",short:"资料整合",desc:"处理多格式资料，构建可检索知识库",tip:"先统一格式、建立索引，让员工提问能检索到原文并注明来源。",color:"#7c3aed"},
-  {name:"输出核验与风险防控",short:"输出核验",desc:"核查事实、人工确认、防范幻觉",tip:"对数字、事实和来源保持核验，重要输出先人工确认再使用。",color:"#be123c"}
+  {name:"输出核验与风险防控",short:"风险防控",desc:"核查事实、人工确认、防范幻觉",tip:"对数字、事实和来源保持核验，重要输出先人工确认再使用。",color:"#be123c"}
 ];
 
 const questions = [
-  {id:1,dim:0,text:"想让AI帮你总结一份会议记录，哪种说法最容易得到好结果？",options:["帮我总结这篇会议记录","帮我总结这篇会议记录，按\u201c结论、决策、待办\u201d输出，并标出待办的负责人","把会议记录发给AI，说\u201c你是会议纪要专家\u201d，让它自己判断哪些是重点再总结","帮我总结得越详细越好，不要漏掉任何内容"],answer:1},
-  {id:2,dim:0,text:"你给AI一份销售表，想知道哪个地区卖得最好，最合适的问法是？",options:["帮我分析一下这份数据，把每个指标都看看","随便看看有什么问题","把数据整理成图表发给AI，让它看图告诉你哪个地区卖得好","按地区汇总销售额，找出销售额最高的3个地区"],answer:3},
-  {id:3,dim:0,text:"AI给出的结果不是自己想要的，第一步最应该做什么？",options:["换一个AI工具再试一遍，看看效果","重新读一遍自己给的需求，把没说清楚的地方补充明确","让AI多生成几次，挑一个看起来最好的","把AI的回答拿给同事看，让同事帮你判断问题出在哪里、该怎么改"],answer:1},
-  {id:4,dim:0,text:"想让AI写一封活动通知，最有可能让语气和格式一次到位的做法是？",options:["只写\u201c写个通知\u201d，其他什么都不用说","找一篇以前发过的类似活动通知，让AI照着它的风格和结构改一改","说明\u201c面向新员工、正式语气、500字以内、分三段\u201d","让AI先自由发挥写一版，自己再慢慢修改"],answer:2},
-  {id:5,dim:1,text:"下面哪一项最能体现\u201cAI Agent\u201d的能力？",options:["回答问题的语气更像真人","能一次生成很长的文章","能记住你之前聊过的所有内容，并连续回答多个相关问题","把目标拆成步骤、调用工具处理文件并交付结果"],answer:3},
-  {id:6,dim:1,text:"要把Excel数据汇总成周报并生成PDF，最省事的做法是？",options:["把表格截图发给AI，让它描述一下内容","用AI Agent读取Excel、汇总数据、直接生成PDF文件","手动把数据抄进Word，再转成PDF","把Excel发给AI，让它分析数据、生成周报文字，再自己排版成一份文档"],answer:1},
-  {id:7,dim:1,text:"下面哪种属于\u201c让AI直接交付成品\u201d，而不是\u201c让AI给建议\u201d？",options:["让AI给大纲和配色建议，自己照着做","让AI给每页标题和要点，自己排版","让AI直接生成一份可打开的PPT文件","让AI写出全部内容文字，再自己复制进PPT"],answer:2},
-  {id:8,dim:1,text:"下面哪个任务更适合交给\u201c聊天AI\u201d而不是\u201cAI Agent\u201d？",options:["把一句话翻译成英文","每天定时抓取新闻并生成报告","合并多个Excel并发送邮件","定时监控数据并推送提醒"],answer:0},
-  {id:9,dim:2,text:"你每周都要写类似的周报，最省力的长期做法是？",options:["每周让AI重新写一遍，每次都把格式、语气、材料要求重新交代一遍","把周报格式、语气、材料要求固化成固定模板，每周只更新内容","每周复制上周的周报，改个日期和数据就提交","每周让AI自由发挥，想怎么写就怎么写"],answer:1},
-  {id:10,dim:2,text:"一个固定日报任务已经搭好并跑通，之后每天最合理的做法是？",options:["每天重新设计一遍流程","每天换一个新AI工具来试试效果，觉得不好用就再换一个","沿用固定流程，只更新当天的数据，检查结果后再使用","让AI想输出什么就输出什么，不用管"],answer:2},
-  {id:11,dim:2,text:"要让\u201c自动汇总各部门Excel\u201d的流程稳定可靠，最重要的前提是？",options:["各部门表格的格式和字段尽量统一","先让AI学会识别各部门表格的字段，之后自动处理","每次上传不同格式的文件，考验AI的适应性","不让AI看具体数据，只按说明处理"],answer:0},
-  {id:12,dim:2,text:"下面哪个做法最能体现\u201c把AI用进工作流\u201d？",options:["每次手动把资料复制给AI，拿到结果再复制回去","设定固定步骤：AI读取资料\u2192按规则处理\u2192输出结果\u2192人工确认","把每周要用的资料统一交给AI，让它按规则处理完，再把结果整理成一份给你","每天让AI随机生成一些报告放着备用"],answer:1},
-  {id:13,dim:3,text:"公司有PDF制度、Excel数据、会议录音，想建一个员工能提问的知识库，哪种思路正确？",options:["把所有资料转成统一文本并建立索引，提问时能检索到原文","把资料打包发到群里，让员工需要时自己翻","把所有资料拼成一份超长文档，之后需要什么内容就在文档里搜","只整理文字资料，音频和视频先不管"],answer:0},
-  {id:14,dim:3,text:"想把90分钟的会议录音整理成文字纪要，AI应该先做什么？",options:["根据会议议题先拟一版纪要，再对照录音核对","先语音转写成文字，再提炼结论和待办","先找人手写记录，再让AI润色成文","让AI看会议海报和议程来推断内容"],answer:1},
-  {id:15,dim:3,text:"想把一批Excel和PDF整理成统一格式方便后续分析，第一步最好先做什么？",options:["直接让AI凭感觉分析并写结论","只保留其中一份资料，其余不看","先了解每份资料的格式和字段，统一转成同一种格式","把所有内容复制到一个Word里，手动合并成一份完整文档"],answer:2},
-  {id:16,dim:3,text:"员工问知识库\u201c年假怎么请\u201d，最好的回答方式是？",options:["凭AI记忆里的制度内容大概说一下","让员工自己去翻制度PDF找答案","直接引用制度原文并说明来源","让AI根据常识临时编一个答案"],answer:2},
-  {id:17,dim:4,text:"AI告诉你\u201c上个月销售额增长了50%\u201d，你该怎么处理？",options:["直接把它写进汇报材料","让AI再重新算一遍，只要两次结果一致就可以用","相信AI一般不会出错，直接采用","先核对原始数据，确认数字准确后再用"],answer:3},
-  {id:18,dim:4,text:"让AI Agent自动发送客户邮件之前，最应该做的是？",options:["由负责人确认内容后再发送","直接让Agent全自动发送，省去人工","先发出去，收到反馈再调整","让Agent自己判断什么时候发送"],answer:0},
-  {id:19,dim:4,text:"下面哪一项属于使用AI时最需要防范的风险？",options:["AI回复的速度太慢，影响整体工作效率","AI编造不存在的事实和数据（幻觉）","AI生成的文字太正式，不够口语化","AI记住太多的历史对话和消息"],answer:1},
-  {id:20,dim:4,text:"AI帮你筛选简历，说\u201c这份最优秀\u201d，最稳妥的做法是？",options:["直接按AI的推荐意见录用","只看AI打的分数高低","不轻信AI，把所有简历都自己重新看一遍","让AI说明判断依据，再结合人工复核"],answer:3}
+  {id:1,dim:0,text:"想让AI帮你总结一份会议记录，哪种说法最容易得到好结果？",options:["帮我总结这篇会议记录","帮我总结这篇会议记录，按\u201c结论、决策、待办\u201d输出，并标出待办的负责人","把会议记录发给AI，说\u201c你是会议纪要专家\u201d，让它自己判断哪些是重点再总结","帮我总结得越详细越好，不要漏掉任何内容"],answer:1,points:[1,5,3,0]},
+  {id:2,dim:0,text:"你给AI一份销售表，想知道哪个地区卖得最好，最合适的问法是？",options:["帮我分析一下这份数据，把每个指标都看看","随便看看有什么问题","把数据整理成图表发给AI，让它看图告诉你哪个地区卖得好","按地区汇总销售额，找出销售额最高的3个地区"],answer:3,points:[1,0,2,5]},
+  {id:3,dim:0,text:"AI给出的结果不是自己想要的，第一步最应该做什么？",options:["换一个AI工具再试一遍，看看效果","重新读一遍自己给的需求，把没说清楚的地方补充明确","让AI多生成几次，挑一个看起来最好的","把AI的回答拿给同事看，让同事帮你判断问题出在哪里、该怎么改"],answer:1,points:[0,5,1,2]},
+  {id:4,dim:0,text:"想让AI写一封活动通知，最有可能让语气和格式一次到位的做法是？",options:["只写\u201c写个通知\u201d，其他什么都不用说","找一篇以前发过的类似活动通知，让AI照着它的风格和结构改一改","说明\u201c面向新员工、正式语气、500字以内、分三段\u201d","让AI先自由发挥写一版，自己再慢慢修改"],answer:2,points:[0,3,5,1]},
+  {id:5,dim:1,text:"下面哪一项最能体现\u201cAI Agent\u201d的能力？",options:["回答问题的语气更像真人","能一次生成很长的文章","能记住你之前聊过的所有内容，并连续回答多个相关问题","把目标拆成步骤、调用工具处理文件并交付结果"],answer:3,points:[0,0,2,5]},
+  {id:6,dim:1,text:"要把Excel数据汇总成周报并生成PDF，最省事的做法是？",options:["把表格截图发给AI，让它描述一下内容","用AI Agent读取Excel、汇总数据、直接生成PDF文件","手动把数据抄进Word，再转成PDF","把Excel发给AI，让它分析数据、生成周报文字，再自己排版成一份文档"],answer:1,points:[0,5,0,2]},
+  {id:7,dim:1,text:"下面哪种属于\u201c让AI直接交付成品\u201d，而不是\u201c让AI给建议\u201d？",options:["让AI给大纲和配色建议，自己照着做","让AI给每页标题和要点，自己排版","让AI直接生成一份可打开的PPT文件","让AI写出全部内容文字，再自己复制进PPT"],answer:2,points:[1,2,5,3]},
+  {id:8,dim:1,text:"下面哪个任务更适合交给\u201c聊天AI\u201d而不是\u201cAI Agent\u201d？",options:["把一句话翻译成英文","每天定时抓取新闻并生成报告","合并多个Excel并发送邮件","定时监控数据并推送提醒"],answer:0,points:[5,0,0,0]},
+  {id:9,dim:2,text:"你每周都要写类似的周报，最省力的长期做法是？",options:["每周让AI重新写一遍，每次都把格式、语气、材料要求重新交代一遍","把周报格式、语气、材料要求固化成固定模板，每周只更新内容","每周复制上周的周报，改个日期和数据就提交","每周让AI自由发挥，想怎么写就怎么写"],answer:1,points:[1,5,2,0]},
+  {id:10,dim:2,text:"一个固定日报任务已经搭好并跑通，之后每天最合理的做法是？",options:["每天重新设计一遍流程","每天换一个新AI工具来试试效果，觉得不好用就再换一个","沿用固定流程，只更新当天的数据，检查结果后再使用","让AI想输出什么就输出什么，不用管"],answer:2,points:[0,0,5,0]},
+  {id:11,dim:2,text:"要让\u201c自动汇总各部门Excel\u201d的流程稳定可靠，最重要的前提是？",options:["各部门表格的格式和字段尽量统一","先让AI学会识别各部门表格的字段，之后自动处理","每次上传不同格式的文件，考验AI的适应性","不让AI看具体数据，只按说明处理"],answer:0,points:[5,3,0,0]},
+  {id:12,dim:2,text:"下面哪个做法最能体现\u201c把AI用进工作流\u201d？",options:["每次手动把资料复制给AI，拿到结果再复制回去","设定固定步骤：AI读取资料\u2192按规则处理\u2192输出结果\u2192人工确认","把每周要用的资料统一交给AI，让它按规则处理完，再把结果整理成一份给你","每天让AI随机生成一些报告放着备用"],answer:1,points:[1,5,3,0]},
+  {id:13,dim:3,text:"公司有PDF制度、Excel数据、会议录音，想建一个员工能提问的知识库，哪种思路正确？",options:["把所有资料转成统一文本并建立索引，提问时能检索到原文","把资料打包发到群里，让员工需要时自己翻","把所有资料拼成一份超长文档，之后需要什么内容就在文档里搜","只整理文字资料，音频和视频先不管"],answer:0,points:[5,0,1,2]},
+  {id:14,dim:3,text:"想把90分钟的会议录音整理成文字纪要，AI应该先做什么？",options:["根据会议议题先拟一版纪要，再对照录音核对","先语音转写成文字，再提炼结论和待办","先找人手写记录，再让AI润色成文","让AI看会议海报和议程来推断内容"],answer:1,points:[2,5,1,0]},
+  {id:15,dim:3,text:"想把一批Excel和PDF整理成统一格式方便后续分析，第一步最好先做什么？",options:["直接让AI凭感觉分析并写结论","只保留其中一份资料，其余不看","先了解每份资料的格式和字段，统一转成同一种格式","把所有内容复制到一个Word里，手动合并成一份完整文档"],answer:2,points:[0,0,5,1]},
+  {id:16,dim:3,text:"员工问知识库\u201c年假怎么请\u201d，最好的回答方式是？",options:["凭AI记忆里的制度内容大概说一下","让员工自己去翻制度PDF找答案","直接引用制度原文并说明来源","让AI根据常识临时编一个答案"],answer:2,points:[1,0,5,0]},
+  {id:17,dim:4,text:"AI告诉你\u201c上个月销售额增长了50%\u201d，你该怎么处理？",options:["直接把它写进汇报材料","让AI再重新算一遍，只要两次结果一致就可以用","相信AI一般不会出错，直接采用","先核对原始数据，确认数字准确后再用"],answer:3,points:[0,2,0,5]},
+  {id:18,dim:4,text:"让AI Agent自动发送客户邮件之前，最应该做的是？",options:["由负责人确认内容后再发送","直接让Agent全自动发送，省去人工","先发出去，收到反馈再调整","让Agent自己判断什么时候发送"],answer:0,points:[5,0,0,0]},
+  {id:19,dim:4,text:"下面哪一项属于使用AI时最需要防范的风险？",options:["AI回复的速度太慢，影响整体工作效率","AI编造不存在的事实和数据（幻觉）","AI生成的文字太正式，不够口语化","AI记住太多的历史对话和消息"],answer:1,points:[1,5,2,3]},
+  {id:20,dim:4,text:"AI帮你筛选简历，说\u201c这份最优秀\u201d，最稳妥的做法是？",options:["直接按AI的推荐意见录用","只看AI打的分数高低","不轻信AI，把所有简历都自己重新看一遍","让AI说明判断依据，再结合人工复核"],answer:3,points:[0,1,3,5]}
 ];
 
 const letters = ["A","B","C","D"];
@@ -230,23 +230,23 @@ function clearHistory(){
   }catch(e){}
 }
 
-// ===== Scoring =====
+// ===== Scoring（选项赋分）=====
 function calculateScores(answers){
-  const dimCount = [0,0,0,0,0];
-  const dimTotal = [0,0,0,0,0];
+  const dimEarned = [0,0,0,0,0];  // 每维度实得分（每题满分5）
+  const dimMax = [0,0,0,0,0];     // 每维度满分
   let correct = 0;
+  const earned = [];              // 每题实得分
   questions.forEach((q,i)=>{
-    dimTotal[q.dim]++;
-    if(answers[i] === q.answer){
-      dimCount[q.dim]++;
-      correct++;
-    }
+    dimMax[q.dim] += 5;
+    if(answers[i] === null){ earned.push(0); return; }
+    const p = q.points[answers[i]];
+    earned.push(p);
+    dimEarned[q.dim] += p;
+    if(answers[i] === q.answer) correct++;
   });
-  const dimScores = dimCount.map(c => c * 25);
-  return {
-    dimCount, dimTotal, dimScores,
-    correct, total: correct * 5
-  };
+  const dimScores = dimEarned.map((e,i) => dimMax[i] ? Math.round(e / dimMax[i] * 100) : 0);
+  const total = earned.reduce((a,b)=>a+b,0);
+  return { dimEarned, dimMax, dimScores, correct, total, earned };
 }
 
 function getGrade(total){
@@ -387,7 +387,7 @@ function renderStart(){
     <div class="start-card">
       <span class="badge">AI 办公能力测评</span>
       <h1>测一测你的 AI 办公能力</h1>
-      <p class="subtitle">20 道单选题 \u00b7 覆盖 5 个维度 \u00b7 约 5 分钟完成。答完立即生成五维能力雷达图与改进建议。</p>
+      <p class="subtitle">20 道题 \u00b7 选项赋分 \u00b7 覆盖 5 个维度 \u00b7 约 5 分钟完成。答完立即生成五维能力雷达图与改进建议。</p>
       <div class="dim-list">
         ${dimensions.map((d,i) => `
           <div class="dim-item">
@@ -546,7 +546,7 @@ function renderResult(){
   const sc = state.resultData;
   const grade = getGrade(sc.total);
   const weakIdx = sc.dimScores.indexOf(Math.min(...sc.dimScores));
-  const wrongQs = questions.filter((q,i) => state.answers[i] !== q.answer);
+  const wrongQs = questions.filter((q,i) => state.answers[i] !== null && state.answers[i] !== q.answer);
   const gradeClass = grade.tone === "good" ? "grade-good" : (grade.tone === "mid" ? "grade-mid" : "grade-low");
 
   return `<div class="app">
@@ -568,7 +568,7 @@ function renderResult(){
           <div><span class="grade-badge ${gradeClass}">${grade.label}</span></div>
           <p class="advice">${grade.advice}</p>
           ${state.userName ? `<p style="margin-top:8px;font-size:13px;color:var(--stone-400)">答题人：${esc(state.userName)}${state.userDept ? ' \u00b7 '+esc(state.userDept) : ''}</p>` : ""}
-          <p style="margin-top:4px;font-size:13px;color:var(--stone-400)">答对 ${sc.correct} / ${questions.length} 题</p>
+          <p style="margin-top:4px;font-size:13px;color:var(--stone-400)">实得 ${sc.total} / 100 分 · 答对（满分）${sc.correct} / ${questions.length} 题</p>
         </div>
         <div class="radar-wrap">${renderRadar(sc.dimScores)}</div>
       </div>
@@ -586,7 +586,7 @@ function renderResult(){
             <div class="dim-bar-track">
               <div class="dim-bar-fill" style="width:${score}%;background:${isWeak ? '#f59e0b' : d.color}"></div>
             </div>
-            <div class="dim-bar-score"><b>${score}</b> \u00b7 ${sc.dimCount[i]}/${sc.dimTotal[i]}题</div>
+            <div class="dim-bar-score"><b>${score}</b> \u00b7 ${sc.dimEarned[i]}/${sc.dimMax[i]}分</div>
           </div>`;
         }).join("")}
       </div>
@@ -597,7 +597,7 @@ function renderResult(){
           <p class="weak-tip">${dimensions[weakIdx].tip}</p>
         </div>
         <div class="wrong-section">
-          <h3>错题回顾（${wrongQs.length} 题）</h3>
+          <h3>未得满分（${wrongQs.length} 题）</h3>
           <div class="wrong-list">
             ${wrongQs.map(q => {
               const userAns = state.answers[q.id - 1];
@@ -605,14 +605,14 @@ function renderResult(){
                 <div class="wrong-item-meta">第 ${q.id} 题 \u00b7 ${dimensions[q.dim].name}</div>
                 <div class="wrong-item-q">${esc(q.text)}</div>
                 <div class="wrong-item-ans">
-                  <div class="wrong-your">你的答案：${letters[userAns]} \u00b7 ${esc(q.options[userAns])}</div>
-                  <div class="wrong-correct">正确答案：${letters[q.answer]} \u00b7 ${esc(q.options[q.answer])}</div>
+                  <div class="wrong-your">你的答案：${letters[userAns]} \u00b7 ${esc(q.options[userAns])} \u00b7 得 ${sc.earned[q.id-1]} / 5 分</div>
+                  <div class="wrong-correct">满分答案：${letters[q.answer]} \u00b7 ${esc(q.options[q.answer])}（5 分）</div>
                 </div>
               </div>`;
             }).join("")}
           </div>
         </div>
-      ` : `<div class="perfect-box">全部答对，太棒了！\ud83c\udf89</div>`}
+      ` : `<div class="perfect-box">全部拿到满分，太棒了！\ud83c\udf89</div>`}
 
       <div class="export-bar">
         <button class="btn-secondary" id="btn-export-json">导出数据 (JSON)</button>
@@ -677,7 +677,7 @@ function renderHistory(){
             return `<div class="history-item" data-id="${r.id}">
               <div class="history-info">
                 <div class="history-name">${esc(r.userName || "匿名用户")}${r.userDept ? ' \u00b7 '+esc(r.userDept) : ''}</div>
-                <div class="history-meta">${fmtDate(r.timestamp)} \u00b7 答对 ${r.scores.correct}/${questions.length}</div>
+                <div class="history-meta">${fmtDate(r.timestamp)} \u00b7 得分 ${r.scores.total} 分 \u00b7 答对 ${r.scores.correct}/${questions.length}</div>
               </div>
               <div class="history-score">
                 <span class="history-score-num">${r.scores.total}</span>
@@ -763,7 +763,7 @@ function bindHistory(){
         state.answers = record.answers;
         state.userName = record.userName || "";
         state.userDept = record.userDept || "";
-        state.resultData = record.scores;
+        state.resultData = calculateScores(record.answers);
         state.screen = "result";
         render();
       }
@@ -795,8 +795,11 @@ function exportJSON(){
       dimension: dimensions[q.dim].name,
       question: q.text,
       yourAnswer: state.answers[i] !== null ? `${letters[state.answers[i]]}. ${q.options[state.answers[i]]}` : "未作答",
+      yourScore: state.answers[i] !== null ? sc.earned[i] : 0,
+      maxScore: 5,
       correctAnswer: `${letters[q.answer]}. ${q.options[q.answer]}`,
-      isCorrect: state.answers[i] === q.answer
+      isFullMark: state.answers[i] === q.answer,
+      optionScores: q.points.map((p,j) => `${letters[j]}.${p}`).join(" ")
     }))
   };
   downloadFile(JSON.stringify(data, null, 2), "ai-assessment-result.json", "application/json");
@@ -805,12 +808,13 @@ function exportJSON(){
 
 function exportCSV(){
   const sc = state.resultData;
-  let csv = "\uFEFF题号,维度,题目,你的答案,正确答案,是否正确\n";
+  let csv = "\uFEFF题号,维度,题目,你的答案,得分,满分,满分答案,是否满分\n";
   questions.forEach((q,i) => {
     const yourAns = state.answers[i] !== null ? `${letters[state.answers[i]]}. ${q.options[state.answers[i]]}` : "未作答";
+    const score = state.answers[i] !== null ? sc.earned[i] : 0;
     const correctAns = `${letters[q.answer]}. ${q.options[q.answer]}`;
-    const isCorrect = state.answers[i] === q.answer ? "正确" : "错误";
-    const row = [q.id, dimensions[q.dim].name, q.text, yourAns, correctAns, isCorrect]
+    const isFull = state.answers[i] === q.answer ? "是" : "否";
+    const row = [q.id, dimensions[q.dim].name, q.text, yourAns, score, 5, correctAns, isFull]
       .map(v => `"${String(v).replace(/"/g, '""')}"`).join(",");
     csv += row + "\n";
   });
@@ -842,7 +846,8 @@ async function submitToSheet(scores){
     const grade = getGrade(scores.total);
     const detail = questions.map((q,i) => {
       const userAns = state.answers[i];
-      return `第${q.id}题[${dimensions[q.dim].short}] ${userAns===q.answer?"正确":"错误"} (选${userAns!==null?letters[userAns]:"-"},答${letters[q.answer]})`;
+      const score = userAns !== null ? scores.earned[i] : 0;
+      return `第${q.id}题[${dimensions[q.dim].short}] 选${userAns!==null?letters[userAns]:"-"}得${score}/5分 (满分:${letters[q.answer]})`;
     }).join(" | ");
 
     const payload = {
@@ -853,6 +858,8 @@ async function submitToSheet(scores){
       correct: scores.correct,
       totalQuestions: questions.length,
       dimScores: scores.dimScores,
+      dimEarned: scores.dimEarned,
+      earnedPoints: scores.earned,
       duration: Math.round((Date.now() - (state.startTime || Date.now())) / 1000),
       detail: detail
     };
